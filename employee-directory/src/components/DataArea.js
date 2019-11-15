@@ -1,12 +1,78 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import DataTable from "./DataTable";
 import Nav from "./Nav";
 import API from "../utils/API";
 import "../styles/DataArea.css";
 
-export default class DataArea extends Component {
-  constructor() {
+function DataArea(){
+// export default class DataArea extends Component {
+  constructor() 
+  
+  {
     super();
+    const [usersState, setUsersState] = useState({
+      users: "",
+      order: "descend",
+      filteredUsers: "",
+      headings:  [ { name: "Image", width: "10%" },
+                  { name: "Name", width: "10%" },
+                  { name: "Phone", width: "20%" },
+                  { name: "Email", width: "20%" },
+                  { name: "DOB", width: "10%" }],
+      
+      handleSort: heading => {
+
+        if (usersState.order === "descend") {
+          setUsersState({
+            ...usersState,
+            order: "ascend"
+          })
+        } else {
+          setUsersState({
+            ...usersState,
+            order: "descend"
+          })
+        }
+
+        const compareFnc = (a, b) => {
+          if (usersState.order === "ascend") {
+            // account for missing values
+            if (a[heading] === undefined) {
+              return 1;
+            } else if (b[heading] === undefined) {
+              return -1;
+            }
+            // numerically
+            else if (heading === "name") {
+              return a[heading].first.localeCompare(b[heading].first);
+            } else {
+              return a[heading] - b[heading];
+            }
+          } else {
+            // account for missing values
+            if (a[heading] === undefined) {
+              return 1;
+            } else if (b[heading] === undefined) {
+              return -1;
+            }
+            // numerically
+            else if (heading === "name") {
+              return b[heading].first.localeCompare(a[heading].first);
+            } else {
+              return b[heading] - a[heading];
+            }
+          }
+
+        }
+        const sortedUsers = usersState.filteredUsers.sort(compareFnc);
+        setUsersState({ ...usersState,filteredUsers: sortedUsers });
+      },
+    });
+  
+
+
+
+
     this.state = {
       users: [{}],
       order: "descend",
@@ -77,7 +143,7 @@ export default class DataArea extends Component {
         this.setState({ filteredUsers: filteredList });
       }
     };
-  }
+  // }
 
   componentDidMount() {
     API.getUsers().then(results => {
