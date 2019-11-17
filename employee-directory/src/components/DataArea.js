@@ -93,14 +93,13 @@ function DataArea(){
     
       setUsersState({ ...usersState,filteredUsers: filteredList });
     }
+
       return (
         <EmployeeContext.Provider value={{usersState, handleSort,  handleSearchChange}}>
           <Nav />
           <div className="data-area">
             <DataTable
-              // headings={usersState.headings}
-              // users={usersState.filteredUsers}
-              // handleSort={handleSort}
+          
             />
           </div>
         </EmployeeContext.Provider>
