@@ -1,8 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import DataBody from "./DataBody";
 import "../styles/DataTable.css";
+import EmployeeContext from "../utils/EmployeeContext";
 
-function DataTable({ headings, users, handleSort }) {
+
+
+function DataTable() {
+  const {usersState,handleSort} = useContext(EmployeeContext);
   return (
     <div className="datatable mt-5">
       <table
@@ -11,7 +15,7 @@ function DataTable({ headings, users, handleSort }) {
       >
         <thead>
           <tr>
-            {headings.map(({ name, width }) => {
+            {usersState.headings.map(({ name, width }) => {
               return (
                 <th
                   className="col"
@@ -29,7 +33,7 @@ function DataTable({ headings, users, handleSort }) {
           </tr>
         </thead>
 
-        <DataBody users={users} />
+        <DataBody />
       </table>
     </div>
   );

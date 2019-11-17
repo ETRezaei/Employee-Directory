@@ -1,7 +1,9 @@
-import React from "react";
+import React,{useContext} from "react";
 import "../styles/SearchBox.css";
+import EmployeeContext from "../utils/EmployeeContext";
 
-function SearchBox({ handleSearchChange }) {
+function SearchBox() {
+  const {handleSearchChange} = useContext(EmployeeContext);
   return (
     <div className="searchbox">
       <form className="form-inline">
